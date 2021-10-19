@@ -1,3 +1,3 @@
-export const ADD_CONTACT = "App/addContact";
-export const FILTER = "App/filter";
-export const REMOVE_CONTACT = "App/removeContact";
+export const ADD_CONTACT = "contacts/addContact";
+export const FILTER = "contacts/filter";
+export const REMOVE_CONTACT = "contacts/removeContact";

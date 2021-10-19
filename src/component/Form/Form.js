@@ -1,10 +1,9 @@
 import { useState  } from "react";
 import {useDispatch } from "react-redux";
-import { addContact } from "../../redux/contacts/contacts-actions.js";
+import { addContact } from "../../redux/contacts/contacts-operations";
 import css from "./Form.module.css";
 
 export default function Form({ onSubmit }) {
-  
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const dispatch = useDispatch();

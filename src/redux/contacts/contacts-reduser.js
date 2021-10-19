@@ -1,15 +1,52 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { addContact, removeContact } from "./contacts-actions";
+import { createSlice } from "@reduxjs/toolkit";
+import { getContacts, addContact, removeContact } from "./contacts-operations";
 
-export const contactsReducer = createReducer([], {
-    [addContact]: (state, { payload }) => {
-        let duplicate = state.find((contact) => contact.name === payload.name);
-        if (duplicate) {
-            alert(`this contact already exists`);
-            return state;
-        } else {
-            return [...state, payload];
-        }
-    },
-    [removeContact]: (state, { payload }) => state.filter((contact) => contact.id !== payload),
+const contactsSlice = createSlice({
+  name: "contacts",
+  initialState: { entities: [], isLoading: false, error: null },
+  extraReducers: {
+    [getContacts.fulfilled]: (state, action) => ({
+      ...state,
+      entities: action.payload,
+      isLoading: false,
+    }),
+    [getContacts.pending]: (state) => ({
+      ...state,
+      isLoading: true,
+    }),
+    [getContacts.rejected]: (state) => ({
+      ...state,
+      isLoading: false,
+    }),
+
+    [addContact.fulfilled]: (state, action) => ({
+      ...state,
+      entities: [...state.entities, action.payload],
+      isLoading: false,
+    }),
+    [addContact.pending]: (state) => ({
+      ...state,
+      isLoading: true,
+    }),
+    [addContact.rejected]: (state) => ({
+      ...state,
+      isLoading: false,
+    }),
+
+    [removeContact.fulfilled]: (state, action) => ({
+      ...state,
+      entities: state.entities.filter(({ id }) => id !== action.payload),
+      isLoading: false,
+    }),
+    [removeContact.pending]: (state) => ({
+      ...state,
+      isLoading: true,
+    }),
+    [removeContact.rejected]: (state) => ({
+      ...state,
+      isLoading: false,
+    }),
+  },
 });
+
+export default contactsSlice.reducer;
